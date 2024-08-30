@@ -124,6 +124,8 @@ jobs:
     container: "python:3.8"
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - name: Use Node.js 16.x
         uses: actions/setup-node@v4
         with:
@@ -137,8 +139,7 @@ jobs:
         run: |
           chmod +x drakrun/drakrun/tools/*  # gh artifacts don't keep file permissions
           cd drakrun
-          ( cd drakrun/web/frontend ; npm install && npm run-script build )
-          python3 setup.py bdist_wheel
+          make DIST=1
       - uses: actions/upload-artifact@v3
         with:
           name: drakvuf-sandbox-whl
